@@ -8,22 +8,21 @@
 var STS_LOGO = "data:image/png;base64,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";
 var STS_BURST_PATH = "M50 2 57 13 69 6 71 20 85 17 82 31 96 34 88 46 99 55 86 61 92 74 78 72 78 87 65 81 57 96 50 84 43 96 35 81 22 87 22 72 8 74 14 61 1 55 12 46 4 34 18 31 15 17 29 20 31 6 43 13z";
 
-/* ---- menu + web-app entry ---- */
-function stsAddExportMenu_(){
-  SpreadsheetApp.getUi().createMenu('📄 STS Export')
-    .addItem('Open printable plan (Save as PDF)…', 'stsOpenExport')
-    .addToUi();
-}
-function stsOpenExport(){
+/* ---- web-app entry + menu integration ----
+ * The 🍴 STS Meal Plan menu's "⑤ Export PDF" item calls exportPdf() (below).
+ * exportPdf opens a dialog with a button that launches this web app in a new tab,
+ * where the coach hits Ctrl/Cmd+P ▸ Save as PDF. Deployed: Execute as Me, Access Only me.
+ */
+function exportPdf(){
+  var ui = SpreadsheetApp.getUi();
   var url = ScriptApp.getService().getUrl();
-  if (!url){
-    SpreadsheetApp.getUi().alert('The PDF export web app is not deployed yet.\n\nDeploy ▸ New deployment ▸ Web app (Execute as: Me, Access: Anyone with the link), then use this menu again.');
-    return;
-  }
-  var html = '<script>window.open("' + url + '","_blank");google.script.host.close();<\/script>'
-           + '<p style="font:14px Arial">Opening your printable plan…</p>';
-  SpreadsheetApp.getUi().showModalDialog(
-    HtmlService.createHtmlOutput(html).setWidth(260).setHeight(80), 'STS Export');
+  if (!url) { ui.alert('The PDF web app is not deployed yet. Extensions > Apps Script > Deploy > New deployment > Web app.'); return; }
+  var body = '<div style="font:14px/1.5 Arial;padding:16px 18px;color:#222">'
+    + '<p style="margin:0 0 14px">Your printable plan is ready.</p>'
+    + '<a href="'+url+'" target="_blank" style="display:inline-block;background:#14B8A6;color:#fff;text-decoration:none;font-weight:700;padding:11px 18px;border-radius:8px">Open printable plan &#9658;</a>'
+    + '<p style="margin:14px 0 0;color:#666;font-size:12px">Opens in a new tab. Then press Ctrl/Cmd+P and choose “Save as PDF” (Margins: None, headers off).</p>'
+    + '</div>';
+  ui.showModalDialog(HtmlService.createHtmlOutput(body).setWidth(360).setHeight(190), 'STS — Export to PDF');
 }
 function doGet(e){
   return HtmlService.createHtmlOutput(stsBuildPlanHtml_())
