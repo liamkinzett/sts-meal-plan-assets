@@ -279,3 +279,35 @@ document.querySelectorAll('.page.recipe').forEach(function(card){
   if(need>avail+1){ var k=avail/need; body.style.transformOrigin='top left'; body.style.transform='scale('+k.toFixed(4)+')'; body.style.width=(100/k).toFixed(2)+'%'; }
 })();
 <\/script></body></html>`;
+
+/* ---- one-off: protect the sheet for coach access (run once, as owner) ----
+ * Also reachable from the 🍴 STS Meal Plan menu is the export; this is run manually
+ * from the Apps Script editor. Idempotent (safe to re-run). */
+function lockdownForCoaches(){
+  var ss = SpreadsheetApp.getActive(), ui = SpreadsheetApp.getUi();
+  var HARD = ['🥗 Recipes','🗄 Recipes OLD (archive)','🍎 Ingredients','⚙️ Lists'];
+  var WARN = ['🛒 Shopping List','📥 Inbox'];
+  var done = [];
+  HARD.forEach(function(name){
+    var sh = ss.getSheetByName(name); if(!sh) return;
+    sh.getProtections(SpreadsheetApp.ProtectionType.SHEET).forEach(function(p){ if(p.getDescription()==='STS lock') p.remove(); });
+    var p = sh.protect().setDescription('STS lock');
+    var eds = p.getEditors().map(function(u){ return u.getEmail(); });
+    if (eds.length) p.removeEditors(eds);
+    if (p.canDomainEdit()) p.setDomainEdit(false);
+    done.push('LOCK  ' + name);
+  });
+  WARN.forEach(function(name){
+    var sh = ss.getSheetByName(name); if(!sh) return;
+    sh.getProtections(SpreadsheetApp.ProtectionType.SHEET).forEach(function(p){ if(p.getDescription()==='STS warn') p.remove(); });
+    sh.protect().setDescription('STS warn').setWarningOnly(true);
+    done.push('WARN  ' + name);
+  });
+  var plan = ss.getSheetByName('📋 Plan');
+  if (plan){
+    plan.getProtections(SpreadsheetApp.ProtectionType.RANGE).forEach(function(p){ if(p.getDescription()==='STS plan warn') p.remove(); });
+    ['E11:H1000','D5:H8'].forEach(function(a){ plan.getRange(a).protect().setDescription('STS plan warn').setWarningOnly(true); });
+    done.push('WARN  📋 Plan macro/total formulas');
+  }
+  ui.alert('Coach protections applied:\n\n' + done.join('\n') + '\n\nLOCK = read-only for coaches (only you can edit)\nWARN = warns before editing\n\nCoaches can still view everything and build plans.');
+}
